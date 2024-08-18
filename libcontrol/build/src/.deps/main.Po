@@ -1,0 +1,4 @@
+main.o: ../../src/main.c /usr/include/stdc-predef.h \
+ ../../include/control.h
+/usr/include/stdc-predef.h:
+../../include/control.h:
