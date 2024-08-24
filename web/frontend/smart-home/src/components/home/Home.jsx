@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import logo from '../../assets/SmartHome-logo.png';
-import { FaUser } from 'react-icons/fa';
-import { ImFilePicture } from "react-icons/im";
+import userIcon from '../../assets/user-icon.png';
+import picture from '../../assets/picture.png';
 
 function Home() {
     const navigate = useNavigate();
@@ -15,7 +15,6 @@ function Home() {
         room2: false,
     });
 
-    // Función para determinar si todas las luces están encendidas
     const areAllLightsOn = () => {
         return Object.values(lightStates).every(state => state);
     };
@@ -43,17 +42,34 @@ function Home() {
         navigate('/login'); 
     }
 
+    /* TODO: Show photo taken from hardware */
+    const handlePhoto = () => {
+        console.log("Show user taken photo");
+         
+    }
+
     return (
         <div className="home-container">
             <Navbar onLogout={handleLogout} />
 
             <div className="grid-container">
-                <div className="grid-item camera-item">
-                    Camera
+                <div className="grid-item camera-container">
+                    
                     {/* TODO: Incorporate image taken from hardware */}
                     <div>
-                        <ImFilePicture className='photo'/>
+                        <img 
+                            src={picture} 
+                            alt="A camera logo" 
+                            className="photo-logo"
+                        />
                     </div>
+
+                    <div>
+                        <button className="take-photo" onClick={handlePhoto}>
+                            Take photo
+                        </button>
+                    </div>  
+
                 </div>
                 
                 <button className={`living-room room-button ${lightStates.livingRoom ? 'on' : 'off'}`} 
@@ -126,7 +142,11 @@ function Navbar({ onLogout }) {
                 className="navbar-logo"
             />
             <div className="user-menu" onClick={toggleDropdown}>
-                <FaUser className="user-icon" />
+                <img 
+                    src={userIcon} 
+                    alt="User profile icon" 
+                    className="user-icon" 
+                />
                 {dropdownVisible && (
                     <div className="dropdown-menu">
                         <button onClick={onLogout} className="dropdown-item">Logout</button>
