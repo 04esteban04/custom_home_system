@@ -48,7 +48,7 @@ function LoginForm () {
                         <input type="password" name="password" value={userData.password} placeholder="Enter your password" onChange={handleChange} required />
                     </div>
 
-                    <button type="submit">Login</button>
+                    <button className="submit-button" type="submit">Login</button>
 
                 </form>
             </div>
