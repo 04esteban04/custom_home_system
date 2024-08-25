@@ -48,6 +48,9 @@ function Home() {
          
     }
 
+    /* TODO: Modularize home grid-container and lights-toggle container in components*/
+
+    /* TODO: Add door component and styles */
     return (
         <div className="home-container">
             <Navbar onLogout={handleLogout} />

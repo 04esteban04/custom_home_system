@@ -12,14 +12,15 @@ function LoginForm () {
 
     const navigate = useNavigate();
 
-    const handleChange = (event) => {
+    const handleFormChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         setUserData(values => ({ ...values, [name]: value }));
     }
 
     /* TODO: Verify user credentials with backend server */
-    const handleSubmit = (event) => {
+    /* TODO: Verify user sesion */
+    const handleFormSubmit = (event) => {
         event.preventDefault();
 
         console.log("Username:", userData.username);
@@ -29,8 +30,9 @@ function LoginForm () {
         navigate('/home');
     }
 
+    /* TODO: Modularize form in component */
     return (
-        <div className="login-container" onSubmit={handleSubmit}>
+        <div className="login-container" onSubmit={handleFormSubmit}>
             
             <div className="login-box">
 
@@ -40,12 +42,12 @@ function LoginForm () {
         
                     <div className="input-group">
                         <label className="login-label" htmlFor="username">Username</label>
-                        <input type="username" name="username" value={userData.username} placeholder="Enter your username" onChange={handleChange} required />
+                        <input type="username" name="username" value={userData.username} placeholder="Enter your username" onChange={handleFormChange} required />
                     </div>
 
                     <div className="input-group">
                         <label className="login-label" htmlFor="password">Password</label>
-                        <input type="password" name="password" value={userData.password} placeholder="Enter your password" onChange={handleChange} required />
+                        <input type="password" name="password" value={userData.password} placeholder="Enter your password" onChange={handleFormChange} required />
                     </div>
 
                     <button className="submit-button" type="submit">Login</button>
