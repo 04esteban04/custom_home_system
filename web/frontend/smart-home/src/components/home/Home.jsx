@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
-import logo from '../../assets/SmartHome-logo.png';
-import userIcon from '../../assets/user-icon.png';
-import picture from '../../assets/picture.png';
+import Navbar from '../navbar/Navbar.jsx';
+import LightButton from '../lightButton/LightButton.jsx';
+import ToggleLights from '../toggleLights/ToggleLights.jsx';
+import CameraContainer from '../camera/CameraContainer.jsx';
 
 function Home() {
     const navigate = useNavigate();
@@ -48,115 +49,60 @@ function Home() {
          
     }
 
-    /* TODO: Modularize home grid-container and lights-toggle container in components*/
-
     /* TODO: Add door component and styles */
     return (
         <div className="home-container">
+            
             <Navbar onLogout={handleLogout} />
 
             <div className="grid-container">
-                <div className="grid-item camera-container">
-                    
-                    {/* TODO: Incorporate image taken from hardware */}
-                    <div>
-                        <img 
-                            src={picture} 
-                            alt="A camera logo" 
-                            className="photo-logo"
-                        />
-                    </div>
 
-                    <div>
-                        <button className="take-photo" onClick={handlePhoto}>
-                            Take photo
-                        </button>
-                    </div>  
+                <CameraContainer handlePhoto={handlePhoto} />
 
-                </div>
-                
-                <button className={`living-room room-button ${lightStates.livingRoom ? 'on' : 'off'}`} 
-                    onClick={() => toggleLight('livingRoom')}>
-
-                    Living room
-                </button>  
-
-                <button 
-                    className={`dining-room room-button ${lightStates.diningRoom ? 'on' : 'off'}`} 
-                    onClick={() => toggleLight('diningRoom')}>
-                
-                    Dining room
-                </button>
-
-                <button 
-                    className={`kitchen room-button ${lightStates.kitchen ? 'on' : 'off'}`} 
-                    onClick={() => toggleLight('kitchen')}>
-
-                    Kitchen
-                </button>
-
-                <button 
-                    className={`room-1 room-button ${lightStates.room1 ? 'on' : 'off'}`} 
-                    onClick={() => toggleLight('room1')}>
-
-                    Room 1
-                </button>
-
-                <button 
-                    className={`room-2 room-button ${lightStates.room2 ? 'on' : 'off'}`} 
-                    onClick={() => toggleLight('room2')}>
-
-                    Room 2
-                </button>
-
-                <div className="grid-item garage">Garage</div>
-            </div>
-
-            <div className='lights-toggle'>
-                <label className="toggle-label">
-                    <input 
-                        type="checkbox" 
-                        className="toggle-switch" 
-                        checked={areAllLightsOn()} 
-                        onChange={toggleAllLights} 
-                    />
-                    <span className="slider"></span>
-                    <span className="toggle-text">
-                        {areAllLightsOn() ? 'Turn off all lights' : 'Turn on all lights'}
-                    </span>
-                </label>
-            </div>
-        </div>
-    );
-}
-
-function Navbar({ onLogout }) {
-    const [dropdownVisible, setDropdownVisible] = useState(false);
-
-    const toggleDropdown = () => {
-        setDropdownVisible(!dropdownVisible);
-    }
-
-    return (
-        <nav className="navbar">
-            <img 
-                src={logo} 
-                alt="Smart Home Logo" 
-                className="navbar-logo"
-            />
-            <div className="user-menu" onClick={toggleDropdown}>
-                <img 
-                    src={userIcon} 
-                    alt="User profile icon" 
-                    className="user-icon" 
+                <LightButton
+                    room="livingRoom"
+                    isOn={lightStates.livingRoom}
+                    toggleLight={toggleLight}
+                    label="Living Room"
                 />
-                {dropdownVisible && (
-                    <div className="dropdown-menu">
-                        <button onClick={onLogout} className="dropdown-item">Logout</button>
-                    </div>
-                )}
+
+                <LightButton
+                    room="diningRoom"
+                    isOn={lightStates.diningRoom}
+                    toggleLight={toggleLight}
+                    label="Dining Room"
+                />
+
+                <LightButton
+                    room="kitchen"
+                    isOn={lightStates.kitchen}
+                    toggleLight={toggleLight}
+                    label="Kitchen"
+                />
+
+                <LightButton
+                    room="room1"
+                    isOn={lightStates.room1}
+                    toggleLight={toggleLight}
+                    label="Room 1"
+                />
+
+                <LightButton
+                    room="room2"
+                    isOn={lightStates.room2}
+                    toggleLight={toggleLight}
+                    label="Room 2"
+                />
+
+                <div className="garage">Garage</div>
             </div>
-        </nav>
+
+            <ToggleLights 
+                areAllLightsOn={areAllLightsOn()} 
+                toggleAllLights={toggleAllLights}
+            />
+
+        </div>
     );
 }
 

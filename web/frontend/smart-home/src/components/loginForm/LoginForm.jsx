@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginForm.css';
 import logo from '../../assets/SmartHome-logo.png';
+import LoginFields from '../loginFields/LoginFields.jsx';
 
 function LoginForm () {
 
@@ -30,30 +31,21 @@ function LoginForm () {
         navigate('/home');
     }
 
-    /* TODO: Modularize form in component */
     return (
-        <div className="login-container" onSubmit={handleFormSubmit}>
-            
+        <div className="login-container">
+
             <div className="login-box">
 
-                <img className='logo' src={logo} alt="Smart Home Logo" width={'300px'} height={'150px'}/>
+                <img className='logo' src={logo} alt="Smart Home Logo"/>
                 
-                <form className='league-spartan-font'> 
-        
-                    <div className="input-group">
-                        <label className="login-label" htmlFor="username">Username</label>
-                        <input type="username" name="username" value={userData.username} placeholder="Enter your username" onChange={handleFormChange} required />
-                    </div>
+                <LoginFields
+                    userData={userData}
+                    handleFormChange={handleFormChange}
+                    handleFormSubmit={handleFormSubmit}
+                />
 
-                    <div className="input-group">
-                        <label className="login-label" htmlFor="password">Password</label>
-                        <input type="password" name="password" value={userData.password} placeholder="Enter your password" onChange={handleFormChange} required />
-                    </div>
-
-                    <button className="submit-button" type="submit">Login</button>
-
-                </form>
             </div>
+            
         </div>
     );
 }
