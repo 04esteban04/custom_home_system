@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import Navbar from '../navbar/Navbar.jsx';
@@ -7,7 +7,9 @@ import ToggleLights from '../toggleLights/ToggleLights.jsx';
 import CameraContainer from '../camera/CameraContainer.jsx';
 
 function Home() {
+    
     const navigate = useNavigate();
+
     const [lightStates, setLightStates] = useState({
         livingRoom: false,
         diningRoom: false,
@@ -38,10 +40,17 @@ function Home() {
         });
     }
 
-    /* TODO: Handle session logout */
+    useEffect(() => {
+        const userSession = localStorage.getItem('userSession');
+        if (!userSession) {
+            navigate('/login');
+        }
+    }, [navigate]);
+
     const handleLogout = () => {
-        navigate('/login'); 
-    }
+        localStorage.removeItem('userSession');
+        navigate('/login');
+    };
 
     /* TODO: Show photo taken from hardware */
     const handlePhoto = () => {

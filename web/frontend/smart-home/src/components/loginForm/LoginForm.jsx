@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './LoginForm.css';
 import logo from '../../assets/SmartHome-logo.png';
 import LoginFields from '../loginFields/LoginFields.jsx';
@@ -13,23 +14,44 @@ function LoginForm () {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const userSession = localStorage.getItem('userSession');
+        if (userSession) {
+            navigate('/home');
+        }
+    }, [navigate]);
+
     const handleFormChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         setUserData(values => ({ ...values, [name]: value }));
     }
 
-    /* TODO: Verify user credentials with backend server */
-    /* TODO: Verify user sesion */
-    const handleFormSubmit = (event) => {
+    const handleFormSubmit = async (event) => {
         event.preventDefault();
 
-        console.log("Username:", userData.username);
-        console.log("Password:", userData.password);
-        alert(`Username: ${userData.username}\nPassword: ${userData.password}`);
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/login', {
+                username: userData.username,
+                password: userData.password,
+            });
 
-        navigate('/home');
-    }
+            if (response.status === 200) {
+                localStorage.setItem('userSession', JSON.stringify(response.data));
+                navigate('/home');
+            }
+
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                alert('Invalid username or password');
+            } else {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+
+            navigate('/login');
+        }
+    };
 
     return (
         <div className="login-container">
