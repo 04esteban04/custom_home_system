@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Home.css';
 import Navbar from '../navbar/Navbar.jsx';
 import LightButton from '../lightButton/LightButton.jsx';
@@ -17,29 +18,7 @@ function Home() {
         room1: false,
         room2: false,
     });
-
-    const areAllLightsOn = () => {
-        return Object.values(lightStates).every(state => state);
-    };
-
-    const toggleLight = (room) => {
-        setLightStates(prevStates => ({
-            ...prevStates,
-            [room]: !prevStates[room]
-        }));
-    }
-
-    const toggleAllLights = () => {
-        const allLightsOn = areAllLightsOn();
-        setLightStates({
-            livingRoom: !allLightsOn,
-            diningRoom: !allLightsOn,
-            kitchen: !allLightsOn,
-            room1: !allLightsOn,
-            room2: !allLightsOn,
-        });
-    }
-
+    
     useEffect(() => {
         const userSession = localStorage.getItem('userSession');
         if (!userSession) {
@@ -50,6 +29,38 @@ function Home() {
     const handleLogout = () => {
         localStorage.removeItem('userSession');
         navigate('/login');
+    };
+
+    const toggleLight = async (room) => {
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/toggleLight', { room });
+            const {isOn} = response.data;
+            
+            setLightStates(prevStates => ({
+                ...prevStates,
+                [room]: isOn
+            }));
+            
+        } catch (error) {
+            console.error('Error toggling light:', error);
+        }
+    };
+
+    const toggleAllLights = async () => {
+        try {
+            const response = await axios.post('http://127.0.0.1:5000/toggleAllLights');
+            
+            const updatedLightStates = response.data;
+    
+            setLightStates(updatedLightStates);
+            
+        } catch (error) {
+            console.error('Error toggling all lights:', error);
+        }
+    };
+
+    const areAllLightsOn = () => {
+        return Object.values(lightStates).every(state => state);
     };
 
     /* TODO: Show photo taken from hardware */

@@ -6,6 +6,8 @@ function ToggleLights({ areAllLightsOn, toggleAllLights }) {
         <div className='lights-toggle'>
             <label className="toggle-label">
                 <input 
+                    id="toggle-all-lights" 
+                    name="toggle-all-lights"
                     type="checkbox" 
                     className="toggle-switch" 
                     checked={areAllLightsOn} 
