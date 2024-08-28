@@ -23,8 +23,20 @@ function Home() {
         const userSession = localStorage.getItem('userSession');
         if (!userSession) {
             navigate('/login');
+        } else {
+            fetchStates(); 
         }
     }, [navigate]);
+
+    const fetchStates = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:5000/getStates');
+            setLightStates(response.data);
+        } catch (error) {
+            alert('Error fetching light states:');
+            console.error('Error fetching light states:', error);
+        }
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('userSession');
@@ -42,6 +54,7 @@ function Home() {
             }));
             
         } catch (error) {
+            alert(`Error toggling light: ${room}`);
             console.error('Error toggling light:', error);
         }
     };
@@ -55,6 +68,7 @@ function Home() {
             setLightStates(updatedLightStates);
             
         } catch (error) {
+            alert('Error toggling  all lights');
             console.error('Error toggling all lights:', error);
         }
     };
@@ -73,7 +87,7 @@ function Home() {
     return (
         <div className="home-container">
             
-            <Navbar onLogout={handleLogout} />
+            <Navbar onLogout={handleLogout} onLogoClick={fetchStates}/>
 
             <div className="grid-container">
 

@@ -13,7 +13,7 @@ function CameraContainer({ handlePhoto }) {
                 />
             </div>
             <div>
-                <button className="take-photo" onClick={handlePhoto}>
+                <button type="button" className="take-photo" onClick={handlePhoto}>
                     Take photo
                 </button>
             </div>

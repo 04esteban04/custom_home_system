@@ -3,7 +3,7 @@ import logo from '../../assets/SmartHome-logo.png';
 import userIcon from '../../assets/user-icon.png';
 import './Navbar.css';
 
-function Navbar({ onLogout }) {
+function Navbar({ onLogout, onLogoClick }) {
     const [dropdownVisible, setDropdownVisible] = useState(false);
 
     const toggleDropdown = () => {
@@ -16,6 +16,7 @@ function Navbar({ onLogout }) {
                 src={logo} 
                 alt="Smart Home Logo" 
                 className="navbar-logo"
+                onClick={onLogoClick}
             />
             <div className="user-menu" onClick={toggleDropdown}>
                 <img 

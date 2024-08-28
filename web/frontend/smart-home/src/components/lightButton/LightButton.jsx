@@ -4,6 +4,7 @@ import './LightButton.css';
 function LightButton({ room, isOn, toggleLight, label }) {
     return (
         <button 
+            type="button"
             className={`roomButton ${room} ${isOn ? 'on' : 'off'}`} 
             onClick={() => toggleLight(room)}
         >
