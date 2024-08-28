@@ -6,6 +6,7 @@ import Navbar from '../navbar/Navbar.jsx';
 import LightButton from '../lightButton/LightButton.jsx';
 import ToggleLights from '../toggleLights/ToggleLights.jsx';
 import CameraContainer from '../camera/CameraContainer.jsx';
+import arrow from '../../assets/arrow.png';
 
 function Home() {
     
@@ -93,12 +94,15 @@ function Home() {
 
                 <CameraContainer handlePhoto={handlePhoto} />
 
-                <LightButton
-                    room="livingRoom"
-                    isOn={lightStates.livingRoom}
-                    toggleLight={toggleLight}
-                    label="Living Room"
-                />
+                <div className='mainDoorContainer flexContainer'>
+                    <LightButton
+                        room="livingRoom"
+                        isOn={lightStates.livingRoom}
+                        toggleLight={toggleLight}
+                        label="Living Room"
+                    />
+                    <div className='door'>Main Door</div>
+                </div>
 
                 <LightButton
                     room="diningRoom"
@@ -107,28 +111,45 @@ function Home() {
                     label="Dining Room"
                 />
 
-                <LightButton
-                    room="kitchen"
-                    isOn={lightStates.kitchen}
-                    toggleLight={toggleLight}
-                    label="Kitchen"
-                />
+                <div className='kitchenContainer'>
+                    <div className='backDoor flexContainer door'>Back Door</div>
+                    <LightButton
+                        room="kitchen"
+                        isOn={lightStates.kitchen}
+                        toggleLight={toggleLight}
+                        label="Kitchen"
+                    />
+                 </div>
 
-                <LightButton
-                    room="room1"
-                    isOn={lightStates.room1}
-                    toggleLight={toggleLight}
-                    label="Room 1"
-                />
+                <div className='room1-container flexContainer'>
+                    <LightButton
+                        room="room1"
+                        isOn={lightStates.room1}
+                        toggleLight={toggleLight}
+                        label="Room 1"
+                    />
+                    <div className='door'>Room 1 Door</div>
+                </div>
 
-                <LightButton
-                    room="room2"
-                    isOn={lightStates.room2}
-                    toggleLight={toggleLight}
-                    label="Room 2"
-                />
+                <div className='room2-container flexContainer'>
+                    <LightButton
+                        room="room2"
+                        isOn={lightStates.room2}
+                        toggleLight={toggleLight}
+                        label="Room 2"
+                    />
+                    <div className='door'>Room 2 Door</div>
+                </div>
 
                 <div className="garage">Garage</div>
+
+                <div className="flexContainer arrowContainer">
+                    <img 
+                        src={arrow} 
+                        alt="A left arrow logo" 
+                        className='arrow'
+                    />
+                </div>
             </div>
 
             <ToggleLights 
