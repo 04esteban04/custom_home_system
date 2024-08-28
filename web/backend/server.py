@@ -5,12 +5,12 @@ import bcrypt
 app = Flask(__name__)
 CORS(app)
 
-stored_username = "admin"
-stored_password = "admin123"
+storedUsername = "admin"
+storedPassword = "admin123"
 
-hashed_password = bcrypt.hashpw(stored_password.encode('utf-8'), bcrypt.gensalt())
+hashedPassword = bcrypt.hashpw(storedPassword.encode('utf-8'), bcrypt.gensalt())
 
-light_states = {
+lightStates = {
     "livingRoom": False,
     "diningRoom": False,
     "kitchen": False,
@@ -18,11 +18,38 @@ light_states = {
     "room2": False
 }
 
+doorStates = {
+    "mainDoor": False,
+    "backDoor": False,
+    "room1Door": False,
+    "room2Door": False
+}
+
 @app.route('/getStates', methods=['GET'])
 def getStates():
-    response = make_response(jsonify(light_states), 200)
 
+    """
+    TODO:
+
+        An array or dictionary must be created in server to stored the pins 
+        used in hardware to make reference to any light and door.
+
+        The function digitalRead(pinNumber) from library must be used 
+        to get the lights and doors states from hardware.
+
+        After that, all the lights and doors states from server have to 
+        be updated correspondingly
+    
+    """
+
+    responseData = {
+        "lightStates": lightStates,
+        "doorStates": doorStates
+    }
+
+    response = make_response(jsonify(responseData), 200)
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
+    
     return response
 
 @app.route('/login', methods=['POST'])
@@ -32,7 +59,7 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    if (username == stored_username) & bcrypt.checkpw(password.encode('utf-8'), hashed_password):
+    if (username == storedUsername) & bcrypt.checkpw(password.encode('utf-8'), hashedPassword):
         response = make_response(jsonify({"message": "Login successful"}), 200)
 
     else:
@@ -47,9 +74,22 @@ def toggleLight():
     data = request.json
     room = data.get('room')
     
-    if room in light_states:
-        light_states[room] = not light_states[room]
-        response = make_response(jsonify({"isOn": light_states[room]}), 200)
+    if room in lightStates:
+
+        """  
+        TODO:
+
+            The light state have to be changed with the function
+            digitalWrite(pinNumber) from library.
+
+            After that, the light state from server have to be 
+            updated correspondingly and send in the response.
+
+        """
+
+        lightStates[room] = not lightStates[room]
+        response = make_response(jsonify({"isOn": lightStates[room]}), 200)
+
     else:
         response = make_response(jsonify({"error": "Invalid room"}), 400)
 
@@ -60,18 +100,26 @@ def toggleLight():
 @app.route('/toggleAllLights', methods=['POST'])
 def toggleAllLights():
 
-    all_on = all(light_states.values())
+    all_on = all(lightStates.values())
     
-    for room in light_states:
-        light_states[room] = not all_on
+    for room in lightStates:
 
-    response = make_response(jsonify(light_states), 200)
+        """  
+        TODO:
+            The lights states have to be changed with the function
+            digitalWrite(pinNumber) from library.
+
+            After that, the lights states from server have to be 
+            updated correspondingly and send in the response.
+
+        """
+
+        lightStates[room] = not all_on
+
+    response = make_response(jsonify(lightStates), 200)
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
     
     return response
-
-
-
 
 
 if __name__ == '__main__':

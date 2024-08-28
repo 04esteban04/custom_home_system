@@ -19,6 +19,13 @@ function Home() {
         room1: false,
         room2: false,
     });
+
+    const [doorStates, setDoorStates] = useState({
+        mainDoor: false,
+        backDoor: false,
+        room1Door: false,
+        room2Door: false,
+    });
     
     useEffect(() => {
         const userSession = localStorage.getItem('userSession');
@@ -32,7 +39,12 @@ function Home() {
     const fetchStates = async () => {
         try {
             const response = await axios.get('http://127.0.0.1:5000/getStates');
-            setLightStates(response.data);
+            
+            const { lightStates, doorStates } = response.data;
+            
+            setLightStates(lightStates);
+            setDoorStates(doorStates);
+
         } catch (error) {
             alert('Error fetching light states:');
             console.error('Error fetching light states:', error);
@@ -101,7 +113,7 @@ function Home() {
                         toggleLight={toggleLight}
                         label="Living Room"
                     />
-                    <div className='door'>Main Door</div>
+                    <div className={`door ${doorStates.mainDoor ? 'on' : 'off'}`}>Main Door</div>
                 </div>
 
                 <LightButton
@@ -112,7 +124,7 @@ function Home() {
                 />
 
                 <div className='kitchenContainer'>
-                    <div className='backDoor flexContainer door'>Back Door</div>
+                    <div className={`backDoor flexContainer door ${doorStates.backDoor ? 'on' : 'off'}`}>Back Door</div>
                     <LightButton
                         room="kitchen"
                         isOn={lightStates.kitchen}
@@ -128,7 +140,7 @@ function Home() {
                         toggleLight={toggleLight}
                         label="Room 1"
                     />
-                    <div className='door'>Room 1 Door</div>
+                    <div className={`door ${doorStates.room1Door ? 'on' : 'off'}`}>Room 1 Door</div>
                 </div>
 
                 <div className='room2-container flexContainer'>
@@ -138,7 +150,7 @@ function Home() {
                         toggleLight={toggleLight}
                         label="Room 2"
                     />
-                    <div className='door'>Room 2 Door</div>
+                    <div className={`door ${doorStates.room2Door ? 'on' : 'off'}`}>Room 2 Door</div>
                 </div>
 
                 <div className="garage">Garage</div>

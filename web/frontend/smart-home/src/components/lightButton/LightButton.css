@@ -63,6 +63,7 @@
 
 .roomButton.off {
     color: #ecf0f1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.616);
 }
 
 .roomButton.on {
