@@ -26,7 +26,7 @@ function Home() {
         room1Door: false,
         room2Door: false,
     });
-    
+
     useEffect(() => {
         const userSession = localStorage.getItem('userSession');
         if (!userSession) {
@@ -90,13 +90,6 @@ function Home() {
         return Object.values(lightStates).every(state => state);
     };
 
-    /* TODO: Show photo taken from hardware */
-    const handlePhoto = () => {
-        console.log("Show user taken photo");
-         
-    }
-
-    /* TODO: Add door component and styles */
     return (
         <div className="home-container">
             
@@ -104,7 +97,7 @@ function Home() {
 
             <div className="grid-container">
 
-                <CameraContainer handlePhoto={handlePhoto} />
+                <CameraContainer />
 
                 <div className='mainDoorContainer flexContainer'>
                     <LightButton

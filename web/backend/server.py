@@ -1,14 +1,17 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify, make_response, send_file
 from flask_cors import CORS
 import bcrypt
+import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 storedUsername = "admin"
 storedPassword = "admin123"
 
 hashedPassword = bcrypt.hashpw(storedPassword.encode('utf-8'), bcrypt.gensalt())
+
+photo_path = "./assets/house.jpg"
 
 lightStates = {
     "livingRoom": False,
@@ -120,6 +123,25 @@ def toggleAllLights():
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
     
     return response
+
+@app.route('/takePhoto', methods=['POST'])
+def takePhoto():
+    """
+    TODO:
+
+    Use function from library to take photo and save it in a folder.
+    Then, use the image path to send it in the response.
+    """
+
+    if os.path.exists(photo_path):
+        response = make_response(send_file(photo_path, mimetype='image/jpeg'))
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
+    else:
+        response = make_response(jsonify({"error": "Photo not found"}), 404)
+        response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        return response
 
 
 if __name__ == '__main__':
