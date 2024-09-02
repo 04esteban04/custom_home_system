@@ -1,4 +1,5 @@
-main.o: ../../src/main.c /usr/include/stdc-predef.h \
+main.o: ../../src/main.c \
+ /opt/poky/5.0+snapshot/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi/usr/include/stdc-predef.h \
  ../../include/control.h
-/usr/include/stdc-predef.h:
+/opt/poky/5.0+snapshot/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi/usr/include/stdc-predef.h:
 ../../include/control.h:
