@@ -1,17 +1,17 @@
 #include <wiringPi.h>
 #include "control.h"
 
-void pinMode(int pin, int mode) {
+void setupPinMode(int pin, int mode) {
     wiringPiSetupGpio(); 
     pinMode(pin, mode);
 }
 
-void digitalWrite(int pin, int value) {
+void setDigitalWrite(int pin, int value) {
     wiringPiSetupGpio(); 
     digitalWrite(pin, value);
 }
 
-int digitalRead(int pin) {
+int getDigitalRead(int pin) {
     wiringPiSetupGpio(); 
     return digitalRead(pin);
 }
