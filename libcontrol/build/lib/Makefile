@@ -71,10 +71,10 @@ am__make_running_with_option = \
   test $$has_opt = yes
 am__make_dryrun = (target_option=n; $(am__make_running_with_option))
 am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
-pkgdatadir = $(datadir)/libraspberry
-pkgincludedir = $(includedir)/libraspberry
-pkglibdir = $(libdir)/libraspberry
-pkglibexecdir = $(libexecdir)/libraspberry
+pkgdatadir = $(datadir)/libcontrol
+pkgincludedir = $(includedir)/libcontrol
+pkglibdir = $(libdir)/libcontrol
+pkglibexecdir = $(libexecdir)/libcontrol
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -88,7 +88,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-pc-linux-gnu
-host_triplet = x86_64-pc-linux-gnu
+host_triplet = arm-poky-linux-gnueabi
 subdir = lib
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -132,17 +132,13 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libRaspberry_la_DEPENDENCIES =
-am_libRaspberry_la_OBJECTS = libRaspberry.lo
-libRaspberry_la_OBJECTS = $(am_libRaspberry_la_OBJECTS)
+libcontrol_la_LIBADD =
+am_libcontrol_la_OBJECTS = control.lo
+libcontrol_la_OBJECTS = $(am_libcontrol_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libRaspberry_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(AM_CFLAGS) $(CFLAGS) $(libRaspberry_la_LDFLAGS) $(LDFLAGS) \
-	-o $@
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -158,7 +154,7 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/libRaspberry.Plo
+am__depfiles_remade = ./$(DEPDIR)/control.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -178,8 +174,8 @@ AM_V_CCLD = $(am__v_CCLD_$(V))
 am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libRaspberry_la_SOURCES)
-DIST_SOURCES = $(libRaspberry_la_SOURCES)
+SOURCES = $(libcontrol_la_SOURCES)
+DIST_SOURCES = $(libcontrol_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -206,17 +202,17 @@ am__define_uniq_tagged_files = \
 am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/build-aux/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} '/home/esteban/Desktop/test-lib-C/build-aux/missing' aclocal-1.16
+ACLOCAL = ${SHELL} '/home/daniel/src/custom_home_system/libcontrol/build-aux/missing' aclocal-1.16
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
-AR = ar
-AUTOCONF = ${SHELL} '/home/esteban/Desktop/test-lib-C/build-aux/missing' autoconf
-AUTOHEADER = ${SHELL} '/home/esteban/Desktop/test-lib-C/build-aux/missing' autoheader
-AUTOMAKE = ${SHELL} '/home/esteban/Desktop/test-lib-C/build-aux/missing' automake-1.16
+AR = arm-poky-linux-gnueabi-ar
+AUTOCONF = ${SHELL} '/home/daniel/src/custom_home_system/libcontrol/build-aux/missing' autoconf
+AUTOHEADER = ${SHELL} '/home/daniel/src/custom_home_system/libcontrol/build-aux/missing' autoheader
+AUTOMAKE = ${SHELL} '/home/daniel/src/custom_home_system/libcontrol/build-aux/missing' automake-1.16
 AWK = gawk
-CC = gcc
+CC = arm-poky-linux-gnueabi-gcc  -mthumb -mfpu=neon-vfpv4 -mfloat-abi=hard -mcpu=cortex-a7 -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -D_TIME_BITS=64 -D_FILE_OFFSET_BITS=64 --sysroot=/opt/poky/5.0+snapshot/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2
+CFLAGS =  -O2 -g  -pipe
 CPPFLAGS = 
 CSCOPE = cscope
 CTAGS = ctags
@@ -233,14 +229,15 @@ EGREP = /usr/bin/grep -E
 ETAGS = etags
 EXEEXT = 
 FGREP = /usr/bin/grep -F
+FILECMD = file
 GREP = /usr/bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-LD = /usr/bin/ld -m elf_x86_64
-LDFLAGS = 
+LD = arm-poky-linux-gnueabi-ld  --sysroot=/opt/poky/5.0+snapshot/sysroots/cortexa7t2hf-neon-vfpv4-poky-linux-gnueabi
+LDFLAGS = -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed  -Wl,-z,relro,-z,now
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
@@ -248,40 +245,35 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 LT_SYS_LIBRARY_PATH = 
-MAKEINFO = ${SHELL} '/home/esteban/Desktop/test-lib-C/build-aux/missing' makeinfo
+MAKEINFO = ${SHELL} '/home/daniel/src/custom_home_system/libcontrol/build-aux/missing' makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /usr/bin/mkdir -p
-NM = /usr/bin/nm -B
+NM = arm-poky-linux-gnueabi-nm
 NMEDIT = 
-OBJDUMP = objdump
+OBJDUMP = arm-poky-linux-gnueabi-objdump
 OBJEXT = o
 OTOOL = 
 OTOOL64 = 
-PACKAGE = libraspberry
+PACKAGE = libcontrol
 PACKAGE_BUGREPORT = mail@emailprovider
-PACKAGE_NAME = libRaspberry
-PACKAGE_STRING = libRaspberry 1.0
-PACKAGE_TARNAME = libraspberry
+PACKAGE_NAME = libcontrol
+PACKAGE_STRING = libcontrol 1.0
+PACKAGE_TARNAME = libcontrol
 PACKAGE_URL = 
 PACKAGE_VERSION = 1.0
 PATH_SEPARATOR = :
-PYTHON = /usr/bin/python3
-PYTHON_EXEC_PREFIX = ${exec_prefix}
-PYTHON_PLATFORM = linux
-PYTHON_PREFIX = ${prefix}
-PYTHON_VERSION = 3.10
-RANLIB = ranlib
-SED = /usr/bin/sed
+RANLIB = arm-poky-linux-gnueabi-ranlib
+SED = sed
 SET_MAKE = 
 SHELL = /bin/bash
-STRIP = strip
+STRIP = arm-poky-linux-gnueabi-strip
 VERSION = 1.0
-abs_builddir = /home/esteban/Desktop/test-lib-C/build/lib
-abs_srcdir = /home/esteban/Desktop/test-lib-C/build/../lib
-abs_top_builddir = /home/esteban/Desktop/test-lib-C/build
-abs_top_srcdir = /home/esteban/Desktop/test-lib-C/build/..
-ac_ct_AR = ar
-ac_ct_CC = gcc
+abs_builddir = /home/daniel/src/custom_home_system/libcontrol/build/lib
+abs_srcdir = /home/daniel/src/custom_home_system/libcontrol/build/../lib
+abs_top_builddir = /home/daniel/src/custom_home_system/libcontrol/build
+abs_top_srcdir = /home/daniel/src/custom_home_system/libcontrol/build/..
+ac_ct_AR = 
+ac_ct_CC = 
 ac_ct_DUMPBIN = 
 am__include = include
 am__leading_dot = .
@@ -300,15 +292,15 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = x86_64-pc-linux-gnu
-host_alias = 
-host_cpu = x86_64
-host_os = linux-gnu
-host_vendor = pc
+host = arm-poky-linux-gnueabi
+host_alias = arm-poky-linux-gnueabi
+host_cpu = arm
+host_os = linux-gnueabi
+host_vendor = poky
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/esteban/Desktop/test-lib-C/build-aux/install-sh
+install_sh = ${SHELL} /home/daniel/src/custom_home_system/libcontrol/build-aux/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -317,13 +309,9 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-pkgpyexecdir = ${pyexecdir}/libraspberry
-pkgpythondir = ${pythondir}/libraspberry
-prefix = /home/esteban/Desktop/test-lib-C/build/usr
+prefix = /home/daniel/src/custom_home_system/libcontrol/build/usr
 program_transform_name = s,x,x,
 psdir = ${docdir}
-pyexecdir = ${PYTHON_EXEC_PREFIX}/lib/python3.10/site-packages
-pythondir = ${PYTHON_PREFIX}/lib/python3.10/site-packages
 runstatedir = ${localstatedir}/run
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
@@ -333,12 +321,10 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ../..
-lib_LTLIBRARIES = libRaspberry.la
-libRaspberry_la_LDFLAGS = -shared
-include_HEADERS = $(top_srcdir)/include/libRaspberry.h
-AM_CPPFLAGS = -I/usr/local/include -I$(top_srcdir)/include
-libRaspberry_la_SOURCES = libRaspberry.c
-libRaspberry_la_LIBADD = -lwiringPi
+lib_LTLIBRARIES = libcontrol.la
+include_HEADERS = $(top_srcdir)/include/control.h
+AM_CPPFLAGS = -I$(top_srcdir)/include
+libcontrol_la_SOURCES = control.c
 all: all-am
 
 .SUFFIXES:
@@ -408,8 +394,8 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libRaspberry.la: $(libRaspberry_la_OBJECTS) $(libRaspberry_la_DEPENDENCIES) $(EXTRA_libRaspberry_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libRaspberry_la_LINK) -rpath $(libdir) $(libRaspberry_la_OBJECTS) $(libRaspberry_la_LIBADD) $(LIBS)
+libcontrol.la: $(libcontrol_la_OBJECTS) $(libcontrol_la_DEPENDENCIES) $(EXTRA_libcontrol_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libcontrol_la_OBJECTS) $(libcontrol_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -417,7 +403,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/libRaspberry.Plo # am--include-marker
+include ./$(DEPDIR)/control.Plo # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -600,7 +586,7 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 	mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/libRaspberry.Plo
+		-rm -f ./$(DEPDIR)/control.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -646,7 +632,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/libRaspberry.Plo
+		-rm -f ./$(DEPDIR)/control.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

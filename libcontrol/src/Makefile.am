@@ -1,12 +1,4 @@
-bin_PROGRAMS =
-EXTRA_DIST = app.py
 AM_CPPFLAGS = -I$(top_srcdir)/include
-PYTHONPATH = $(top_builddir)/lib/.libs
-
-.PHONY: run
-run:
-	PYTHONPATH=$(PYTHONPATH) $(PYTHON) app.py
-
-install-exec-local:
-	mkdir -p $(DESTDIR)$(prefix)
-	cp $(srcdir)/app.py $(DESTDIR)$(prefix)/
+bin_PROGRAMS = control
+control_SOURCES = main.c
+control_LDADD = $(top_builddir)/lib/libcontrol.la

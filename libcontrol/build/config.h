@@ -35,19 +35,19 @@
 #define LT_OBJDIR ".libs/"
 
 /* Name of package */
-#define PACKAGE "libraspberry"
+#define PACKAGE "libcontrol"
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "mail@emailprovider"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "libRaspberry"
+#define PACKAGE_NAME "libcontrol"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libRaspberry 1.0"
+#define PACKAGE_STRING "libcontrol 1.0"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "libraspberry"
+#define PACKAGE_TARNAME "libcontrol"
 
 /* Define to the home page for this package. */
 #define PACKAGE_URL ""
@@ -55,7 +55,7 @@
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "1.0"
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #define STDC_HEADERS 1

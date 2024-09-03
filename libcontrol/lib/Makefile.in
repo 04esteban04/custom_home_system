@@ -132,17 +132,13 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libRaspberry_la_DEPENDENCIES =
-am_libRaspberry_la_OBJECTS = libRaspberry.lo
-libRaspberry_la_OBJECTS = $(am_libRaspberry_la_OBJECTS)
+libcontrol_la_LIBADD =
+am_libcontrol_la_OBJECTS = control.lo
+libcontrol_la_OBJECTS = $(am_libcontrol_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libRaspberry_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(AM_CFLAGS) $(CFLAGS) $(libRaspberry_la_LDFLAGS) $(LDFLAGS) \
-	-o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -158,7 +154,7 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/libRaspberry.Plo
+am__depfiles_remade = ./$(DEPDIR)/control.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -178,8 +174,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libRaspberry_la_SOURCES)
-DIST_SOURCES = $(libRaspberry_la_SOURCES)
+SOURCES = $(libcontrol_la_SOURCES)
+DIST_SOURCES = $(libcontrol_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -233,6 +229,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -265,11 +262,6 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
-PYTHON = @PYTHON@
-PYTHON_EXEC_PREFIX = @PYTHON_EXEC_PREFIX@
-PYTHON_PLATFORM = @PYTHON_PLATFORM@
-PYTHON_PREFIX = @PYTHON_PREFIX@
-PYTHON_VERSION = @PYTHON_VERSION@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -317,13 +309,9 @@ mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
-pkgpyexecdir = @pkgpyexecdir@
-pkgpythondir = @pkgpythondir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
-pyexecdir = @pyexecdir@
-pythondir = @pythondir@
 runstatedir = @runstatedir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
@@ -333,12 +321,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-lib_LTLIBRARIES = libRaspberry.la
-libRaspberry_la_LDFLAGS = -shared
-include_HEADERS = $(top_srcdir)/include/libRaspberry.h
-AM_CPPFLAGS = -I/usr/local/include -I$(top_srcdir)/include
-libRaspberry_la_SOURCES = libRaspberry.c
-libRaspberry_la_LIBADD = -lwiringPi
+lib_LTLIBRARIES = libcontrol.la
+include_HEADERS = $(top_srcdir)/include/control.h
+AM_CPPFLAGS = -I$(top_srcdir)/include
+libcontrol_la_SOURCES = control.c
 all: all-am
 
 .SUFFIXES:
@@ -408,8 +394,8 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libRaspberry.la: $(libRaspberry_la_OBJECTS) $(libRaspberry_la_DEPENDENCIES) $(EXTRA_libRaspberry_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libRaspberry_la_LINK) -rpath $(libdir) $(libRaspberry_la_OBJECTS) $(libRaspberry_la_LIBADD) $(LIBS)
+libcontrol.la: $(libcontrol_la_OBJECTS) $(libcontrol_la_DEPENDENCIES) $(EXTRA_libcontrol_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libcontrol_la_OBJECTS) $(libcontrol_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -417,7 +403,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libRaspberry.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/control.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -600,7 +586,7 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 	mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/libRaspberry.Plo
+		-rm -f ./$(DEPDIR)/control.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -646,7 +632,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/libRaspberry.Plo
+		-rm -f ./$(DEPDIR)/control.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
