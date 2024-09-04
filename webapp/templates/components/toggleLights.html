@@ -1,0 +1,31 @@
+<div class="lights-toggle">
+    <label class="toggle-label">
+        <input 
+            id="toggle-all-lights" 
+            name="toggle-all-lights"
+            type="checkbox" 
+            class="toggle-switch" 
+            {{ 'checked' if areAllLightsOn else '' }} 
+            onchange="toggleAllLights()"
+        />
+        <span class="slider"></span>
+        <span class="toggle-text">
+            {{ 'Turn off all lights' if areAllLightsOn else 'Turn on all lights' }}
+        </span>
+    </label>
+</div>
+
+<script>
+    function toggleAllLights() {
+        fetch('/toggleAllLights', {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+            location.reload();
+        })
+        .catch(error => {
+            alert('Error toggling all lights');
+        });
+    }
+</script>

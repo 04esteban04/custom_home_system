@@ -1,0 +1,27 @@
+<button 
+    label="{{label}}"
+    type="button"
+    class="roomButton {{ room }} {{ 'on' if state else 'off' }}" 
+    onclick="toggleLight('{{ room }}', this)"
+>
+    {{ label }}
+</button>
+
+<script>
+    function toggleLight(room, buttonElement) {
+        fetch('/toggleLight', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ room })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.isOn !== undefined) {
+                buttonElement.classList.toggle('on', data.isOn);
+                buttonElement.classList.toggle('off', !data.isOn);
+            } else {
+                alert('Error toggling light: ' + room);
+            }
+        });
+    }
+</script>

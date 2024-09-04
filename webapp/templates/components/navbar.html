@@ -1,0 +1,29 @@
+<nav class="navbar">
+    <img 
+        src="{{ url_for('static', filename='images/SmartHome-logo.png') }}" 
+        alt="Smart Home Logo" 
+        class="navbar-logo"
+        onclick="location.reload();"
+    />
+    <div class="user-menu">
+        <img 
+            src="{{ url_for('static', filename='images/user-icon.png') }}" 
+            alt="User profile icon" 
+            class="user-icon" 
+            onclick="toggleDropdown()"
+        />
+        <div id="dropdown-menu" class="dropdown-menu">
+            <button onclick="window.location.href= logOutURL" class="dropdown-item">Logout</button>
+        </div>
+    </div>
+</nav>
+
+<script>
+
+    let logoutUrl = "{{ url_for('logout') }}";
+
+    function toggleDropdown() {
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    }
+</script>

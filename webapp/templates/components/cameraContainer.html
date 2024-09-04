@@ -1,0 +1,34 @@
+<div class="camera-container">
+    <div>
+        <img 
+            src="{{ photoUrl if photoUrl else url_for('static', filename='images/picture.png') }}" 
+            alt="Captured" 
+            class="photo-logo"
+            onerror="this.src=onErrorImage"
+        />
+    </div>
+    <div>
+        <button type="button" class="take-photo" onclick="takePhoto()">
+            Take photo
+        </button>
+    </div>
+</div>
+
+<script>
+
+    let onErrorImage = "{{ url_for('static', filename='images/picture.png') }}";
+
+    function takePhoto() {
+        fetch('/takePhoto', {
+            method: 'POST'
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            const imageObjectURL = URL.createObjectURL(blob);
+            document.querySelector('.photo-logo').src = imageObjectURL;
+        })
+        .catch(error => {
+            alert('Error taking photo');
+        });
+    }
+</script>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, jsonify
 from flask_cors import CORS
 import bcrypt
 import os
@@ -12,7 +12,7 @@ storedPassword = "admin123"
 
 hashedPassword = bcrypt.hashpw(storedPassword.encode('utf-8'), bcrypt.gensalt())
 
-photo_path = "./assets/house.jpg"
+photo_path = "./static/images/house.jpg"
 
 lightStates = {
     "livingRoom": False,
@@ -57,7 +57,12 @@ def login():
 @app.route('/home')
 def home():
     if 'userSession' in session:
-        return render_template('home.html', username=session['userSession']['username'])
+        return render_template(
+            'home.html',
+            lightStates = lightStates,
+            doorStates = doorStates,
+            photoUrl = None  
+        )
     else:
         return redirect(url_for('login'))
 
@@ -90,10 +95,7 @@ def getStates():
         "doorStates": doorStates
     }
 
-    response = make_response(jsonify(responseData), 200)
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-    
-    return response
+    return jsonify(responseData)
 
 @app.route('/toggleLight', methods=['POST'])
 def toggleLight():
@@ -101,28 +103,22 @@ def toggleLight():
     data = request.json
     room = data.get('room')
     
+    """  
+    TODO:
+
+        The light state have to be changed with the function
+        digitalWrite(pinNumber) from library.
+
+        After that, the light state from server have to be 
+        updated correspondingly and send in the response.
+
+    """
+
     if room in lightStates:
-
-        """  
-        TODO:
-
-            The light state have to be changed with the function
-            digitalWrite(pinNumber) from library.
-
-            After that, the light state from server have to be 
-            updated correspondingly and send in the response.
-
-        """
-
         lightStates[room] = not lightStates[room]
-        response = make_response(jsonify({"isOn": lightStates[room]}), 200)
-
+        return jsonify({"isOn": lightStates[room]})
     else:
-        response = make_response(jsonify({"error": "Invalid room"}), 400)
-
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-
-    return response
+        return jsonify({"error": "Invalid room"}), 400
 
 @app.route('/toggleAllLights', methods=['POST'])
 def toggleAllLights():
@@ -143,10 +139,7 @@ def toggleAllLights():
 
         lightStates[room] = not all_on
 
-    response = make_response(jsonify(lightStates), 200)
-    response.headers['Content-Type'] = 'application/json; charset=utf-8'
-    
-    return response
+    return jsonify(lightStates)
 
 @app.route('/takePhoto', methods=['POST'])
 def takePhoto():
@@ -158,14 +151,9 @@ def takePhoto():
     """
 
     if os.path.exists(photo_path):
-        response = make_response(send_file(photo_path, mimetype='image/jpeg'))
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        return response
+        return send_file(photo_path, mimetype='image/jpeg')
     else:
-        response = make_response(jsonify({"error": "Photo not found"}), 404)
-        response.headers['Content-Type'] = 'application/json; charset=utf-8'
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        return response
+        return jsonify({"error": "Photo not found"}), 404
 
 
 if __name__ == '__main__':
