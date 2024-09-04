@@ -13,22 +13,3 @@
         </button>
     </div>
 </div>
-
-<script>
-
-    let onErrorImage = "{{ url_for('static', filename='images/picture.png') }}";
-
-    function takePhoto() {
-        fetch('/takePhoto', {
-            method: 'POST'
-        })
-        .then(response => response.blob())
-        .then(blob => {
-            const imageObjectURL = URL.createObjectURL(blob);
-            document.querySelector('.photo-logo').src = imageObjectURL;
-        })
-        .catch(error => {
-            alert('Error taking photo');
-        });
-    }
-</script>

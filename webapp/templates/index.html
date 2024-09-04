@@ -3,12 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
-    {% block styles %}
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-      <link rel="stylesheet" href="{{ url_for('static', filename='css/loginForm.css') }}">
-    {% endblock %}
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>{% block title %}Smart Home{% endblock %}</title>
   </head>
 

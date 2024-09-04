@@ -29,7 +29,7 @@ doorStates = {
     "room2Door": False
 }
 
-# Login routes
+# Basic routes
 @app.route('/')
 def index():
     if 'userSession' in session:
@@ -57,6 +57,21 @@ def login():
 @app.route('/home')
 def home():
     if 'userSession' in session:
+
+        """
+        TODO:
+
+            An array or dictionary must be created in server to stored the pins 
+            used in hardware to make reference to any light and door.
+
+            The function digitalRead(pinNumber) from library must be used 
+            to get the lights and doors states from hardware.
+
+            After that, all the lights and doors states from server have to 
+            be updated correspondingly
+        
+        """
+
         return render_template(
             'home.html',
             lightStates = lightStates,
@@ -74,13 +89,10 @@ def logout():
 
 # Functionality routes
 @app.route('/getStates', methods=['GET'])
-def getStates():
-
+def get_states():
+    
     """
     TODO:
-
-        An array or dictionary must be created in server to stored the pins 
-        used in hardware to make reference to any light and door.
 
         The function digitalRead(pinNumber) from library must be used 
         to get the lights and doors states from hardware.
@@ -94,9 +106,8 @@ def getStates():
         "lightStates": lightStates,
         "doorStates": doorStates
     }
-
     return jsonify(responseData)
-
+    
 @app.route('/toggleLight', methods=['POST'])
 def toggleLight():
     
@@ -116,7 +127,8 @@ def toggleLight():
 
     if room in lightStates:
         lightStates[room] = not lightStates[room]
-        return jsonify({"isOn": lightStates[room]})
+        return jsonify({"lightStates": lightStates}) 
+
     else:
         return jsonify({"error": "Invalid room"}), 400
 
@@ -125,19 +137,23 @@ def toggleAllLights():
 
     all_on = all(lightStates.values())
     
-    for room in lightStates:
+    """  
+    TODO:
+        The lights states have to be changed with the function
+        digitalWrite(pinNumber) from library.
 
-        """  
-        TODO:
-            The lights states have to be changed with the function
-            digitalWrite(pinNumber) from library.
+        After that, the lights states from server have to be 
+        updated correspondingly and send in the response.
 
-            After that, the lights states from server have to be 
-            updated correspondingly and send in the response.
+    """
 
-        """
+    if all_on:
+        for room in lightStates:
+            lightStates[room] = not all_on
 
-        lightStates[room] = not all_on
+    else: 
+        for room in lightStates:
+            lightStates[room] = True
 
     return jsonify(lightStates)
 

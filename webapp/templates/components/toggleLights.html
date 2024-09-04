@@ -14,18 +14,3 @@
         </span>
     </label>
 </div>
-
-<script>
-    function toggleAllLights() {
-        fetch('/toggleAllLights', {
-            method: 'POST'
-        })
-        .then(response => response.json())
-        .then(data => {
-            location.reload();
-        })
-        .catch(error => {
-            alert('Error toggling all lights');
-        });
-    }
-</script>

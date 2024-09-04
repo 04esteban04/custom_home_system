@@ -1,29 +1,23 @@
 {% extends "index.html" %}
 
-{% block styles %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/cameraContainer.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lightButton.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/toggleLights.css') }}">
-{% endblock %}
-
 {% block title %}Home - Smart Home{% endblock %}
 
 {% block content %}
 <div class="home-container">
-
+  
     {% include 'components/navbar.html' %}
 
     <div class="grid-container">
         
-        {% include 'components/cameraContainer.html' %}
-        
+        {% with onErrorImage="{{ url_for('static', filename='images/picture.png') }}" %}        
+            {% include 'components/cameraContainer.html' %}
+        {% endwith %}
+
         <div class='mainDoorContainer flexContainer'>
             {% with room="livingRoom", label="Living Room", state=lightStates.livingRoom %}
                 {% include 'components/lightButton.html' %}
             {% endwith %}
-            <div class="door {{ 'on' if doorStates.mainDoor else 'off' }}">Main Door</div>
+            <div id="mainDoor" class="door {{ 'on' if doorStates.mainDoor else 'off' }}">Main Door</div>
         </div>
 
         {% with room="diningRoom", label="Dining Room", state=lightStates.diningRoom %}
@@ -31,7 +25,7 @@
         {% endwith %}
 
         <div class='kitchenContainer'>
-            <div class="backDoor flexContainer door {{ 'on' if doorStates.backDoor else 'off' }}">Back Door</div>
+            <div id="backDoor" class="door backDoor flexContainer {{ 'on' if doorStates.backDoor else 'off' }}">Back Door</div>
             {% with room="kitchen", label="Kitchen", state=lightStates.kitchen %}
                 {% include 'components/lightButton.html' %}
             {% endwith %}
@@ -41,14 +35,14 @@
             {% with room="room1", label="Room 1", state=lightStates.room1 %}
                 {% include 'components/lightButton.html' %}
             {% endwith %}
-            <div class="door {{ 'on' if doorStates.room1Door else 'off' }}">Room 1 Door</div>
+            <div id="room1Door" class="door {{ 'on' if doorStates.room1Door else 'off' }}">Room 1 Door</div>
         </div>
 
         <div class='room2-container flexContainer'>
             {% with room="room2", label="Room 2", state=lightStates.room2 %}
                 {% include 'components/lightButton.html' %}
             {% endwith %}
-            <div class="door {{ 'on' if doorStates.room2Door else 'off' }}">Room 2 Door</div>
+            <div id="room2Door" class="door {{ 'on' if doorStates.room2Door else 'off' }}">Room 2 Door</div>
         </div>
 
         <div class="garage">Garage</div>
@@ -61,4 +55,7 @@
     {% include 'components/toggleLights.html' %}
 
 </div>
+
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+
 {% endblock %}

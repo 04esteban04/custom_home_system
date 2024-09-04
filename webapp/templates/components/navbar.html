@@ -12,18 +12,16 @@
             class="user-icon" 
             onclick="toggleDropdown()"
         />
-        <div id="dropdown-menu" class="dropdown-menu">
-            <button onclick="window.location.href= logOutURL" class="dropdown-item">Logout</button>
+        <div id="dropdown-menu" class="dropdown-menu hidden">
+            <button 
+                id="logout-button" 
+                class="dropdown-item" 
+                data-url="{{ url_for('logout') }}" 
+                type="button"
+                onclick="handleLogout(event)">
+            
+                Logout
+            </button>
         </div>
     </div>
 </nav>
-
-<script>
-
-    let logoutUrl = "{{ url_for('logout') }}";
-
-    function toggleDropdown() {
-        const dropdownMenu = document.getElementById('dropdown-menu');
-        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-    }
-</script>
