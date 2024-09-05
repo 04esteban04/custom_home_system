@@ -1,0 +1,60 @@
+# Archivos generados por Autotools
+/aclocal.m4
+/autom4te.cache/
+/autoscan.log
+/compile
+/config.guess
+/config.log
+/config.status
+/config.sub
+/configure
+/config.h
+/config.h.in
+/depcomp
+/install-sh
+/ltmain.sh
+/missing
+/stamp-h1
+/stamp-h
+
+# Directorios comunes generados por `make`
+/Makefile
+/Makefile.in
+/Makefile.am
+/libs/
+libtool
+*.o
+*.lo
+*.la
+*.so
+*.a
+*.dylib
+
+# Directorios de compilación y binarios
+/build/
+/bin/
+/obj/
+/*.obj
+/*.exe
+
+# Archivos de pruebas
+/tests/*.log
+/tests/*.trs
+/tests/*.o
+/tests/*.so
+/tests/.libs/
+
+# Archivos de caché y salida de compilación
+*.log
+*.cache
+*.output
+
+# Archivos temporales
+*~
+*.swp
+*.bak
+
+# Archivos de depuración y respaldo
+*.gdb
+*.core
+*.orig
