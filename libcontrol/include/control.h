@@ -1,15 +1,20 @@
-#ifndef LIBCONTROL_H
-#define LIBCONTROL_H
+#ifndef LIB_CONTROL_H
+#define LIB_CONTROL_H
 
 // Definición de los modos de los pines
-#define INPUT  0
-#define OUTPUT 1
-#define HIGH   1
-#define LOW    0
+#define INPUT  "ip"
+#define OUTPUT "op"
+#define HIGH   "dh"
+#define LOW    "dl"
+#define PULL_UP "pu"
+#define PULL_DOWN "pd"
+#define PULL_NONE "pn"
 
-void setupPinMode(int pin, int mode);
-void setDigitalWrite(int pin, int value);
-int getDigitalRead(int pin);
+// Funciones para interactuar con los GPIOs
+void setPinMode(int pin, const char* mode);
+void setPullMode(int pin, const char* pull);
+void digitalWrite(int pin, const char* value);
+int digitalRead(int pin);
 void blink(int pin, int freq, int duration);
 
-#endif 
+#endif
