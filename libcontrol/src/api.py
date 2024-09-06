@@ -2,9 +2,10 @@ import ctypes
 import os
 
 # Ruta a la biblioteca compartida
-lib_path = os.path.join(os.path.dirname(__file__), "../lib/.libs/libcontrol.so")
+lib_path = os.path.join(os.path.dirname(__file__), "/usr/lib/libcontrol.so.0")
 lib = ctypes.CDLL(lib_path)
 #lib = ctypes.CDLL('/usr/lib/libcontrol.so.0')
+# ../lib/.libs/libcontrol.so
 
 # Definir los prototipos de las funciones que vamos a usar
 lib.setPinMode.argtypes = [ctypes.c_int, ctypes.c_char_p]

@@ -11,7 +11,7 @@ dlname='libcontrol.so.0'
 library_names='libcontrol.so.0.0.0 libcontrol.so.0 libcontrol.so'
 
 # The name of the static archive.
-old_library='libcontrol.a'
+old_library=''
 
 # Linker flags that cannot go in dependency_libs.
 inherited_linker_flags=''

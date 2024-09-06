@@ -139,6 +139,9 @@ AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+libcontrol_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(libcontrol_la_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -322,6 +325,7 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ../..
 lib_LTLIBRARIES = libcontrol.la
+libcontrol_la_LDFLAGS = -shared
 include_HEADERS = $(top_srcdir)/include/control.h
 AM_CPPFLAGS = -I$(top_srcdir)/include
 libcontrol_la_SOURCES = control.c
@@ -395,7 +399,7 @@ clean-libLTLIBRARIES:
 	}
 
 libcontrol.la: $(libcontrol_la_OBJECTS) $(libcontrol_la_DEPENDENCIES) $(EXTRA_libcontrol_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libcontrol_la_OBJECTS) $(libcontrol_la_LIBADD) $(LIBS)
+	$(AM_V_CCLD)$(libcontrol_la_LINK) -rpath $(libdir) $(libcontrol_la_OBJECTS) $(libcontrol_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
