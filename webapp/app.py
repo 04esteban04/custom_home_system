@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, jsonify
-from flask_cors import CORS
 import bcrypt
 import os
 
 app = Flask(__name__)
 app.secret_key = "cR/N{E{4Ta#qUn5"
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 storedUsername = "admin"
 storedPassword = "admin123"
