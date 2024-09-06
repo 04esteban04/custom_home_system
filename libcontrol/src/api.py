@@ -17,28 +17,28 @@ lib.blink.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int]
 
 def main():
     # GPIO pin 
-    GPIO_17 = 17
-    GPIO_27 = 27
-    GPIO_22 = 22
+    PIN_13 = 13
+    PIN_15 = 15
+    PIN_16 = 16
 
-    # Configurar GPIO_17 y GPIO_27 como salidas y el GPIO_22 como entrada
-    lib.setPinMode(GPIO_17, b'op')  # 'op' significa output (salida)
-    lib.setPinMode(GPIO_27, b'op')
-    lib.setPinMode(GPIO_22, b'ip')  # 'ip' significa input (entrada)
+    # Configurar PIN_13 y PIN_15 como salidas y el PIN_16 como entrada
+    lib.setPinMode(PIN_13, b'op')  # 'op' significa output (salida)
+    lib.setPinMode(PIN_15, b'op')
+    lib.setPinMode(PIN_16, b'ip')  # 'ip' significa input (entrada)
 
-    # Escribir un valor alto en GPIO_17
-    lib.digitalWrite(GPIO_17, b'dh')  # 'dh' es drive-high (alto)
-    lib.digitalWrite(GPIO_27, b'dh') 
+    # Escribir un valor alto en PIN_13
+    lib.digitalWrite(PIN_13, b'dh')  # 'dh' es drive-high (alto)
+    lib.digitalWrite(PIN_15, b'dh') 
 
-    # Leer el valor de GPIO_17 y GPIO_27
-    valuePin_17 = lib.digitalRead(GPIO_17)
-    print(f"GPIO {GPIO_17} leído, valor: {valuePin_17}")
+    # Leer el valor de PIN_13 y PIN_15
+    valuePin_17 = lib.digitalRead(PIN_13)
+    print(f"GPIO {PIN_13} leído, valor: {valuePin_17}")
 
-    valuePin_27 = lib.digitalRead(GPIO_27)
-    print(f"GPIO {GPIO_27} leído, valor: {valuePin_27}")
+    valuePin_27 = lib.digitalRead(PIN_15)
+    print(f"GPIO {PIN_15} leído, valor: {valuePin_27}")
 
     # Generar un blink en GPIO_OUT2 a 2 Hz por 5 segundos
-    lib.blink(GPIO_27, 2, 5)
+    lib.blink(PIN_15, 2, 5)
 
 if __name__ == "__main__":
     main()
