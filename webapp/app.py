@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, jsonify
 import bcrypt
 import os
+import ctypes
 
 app = Flask(__name__)
 app.secret_key = "cR/N{E{4Ta#qUn5"
@@ -11,6 +12,33 @@ storedPassword = "admin123"
 hashedPassword = bcrypt.hashpw(storedPassword.encode('utf-8'), bcrypt.gensalt())
 
 photo_path = "./static/images/house.jpg"
+
+lib_path = os.path.join(os.path.dirname(__file__), "/usr/lib/libcontrol.so.0")
+lib = ctypes.CDLL(lib_path)
+#lib = ctypes.CDLL('/usr/lib/libcontrol.so.0')
+# ../lib/.libs/libcontrol.so
+
+lib.setPinMode.argtypes = [ctypes.c_int, ctypes.c_char_p]
+lib.setPullMode.argtypes = [ctypes.c_int, ctypes.c_char_p]
+lib.digitalWrite.argtypes = [ctypes.c_int, ctypes.c_char_p]
+lib.digitalRead.restype = ctypes.c_int
+lib.digitalRead.argtypes = [ctypes.c_int]
+lib.blink.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int]
+
+roomPins = {
+    "livingRoom": 15,
+    "diningRoom": 17,
+    "kitchen": 27,
+    "room1": 22,
+    "room2": 23
+}
+
+doorPins = {
+    "mainDoor": 24,
+    "backDoor": 25,
+    "room1Door": 5,
+    "room2Door": 6
+}
 
 lightStates = {
     "livingRoom": False,
@@ -88,22 +116,22 @@ def logout():
 # Functionality routes
 @app.route('/getStates', methods=['GET'])
 def get_states():
-    
-    """
-    TODO:
 
-        The function digitalRead(pinNumber) from library must be used 
-        to get the lights and doors states from hardware.
+    for room in lightStates:
+        pin = roomPins[room]  
+        hardware_state = lib.digitalRead(pin) 
+        lightStates[room] = True if hardware_state == 1 else False  
 
-        After that, all the lights and doors states from server have to 
-        be updated correspondingly
-    
-    """
+    for door in doorStates:
+        pin = doorPins[door] 
+        hardware_state = lib.digitalRead(pin) 
+        doorStates[door] = True if hardware_state == 1 else False  
 
     responseData = {
         "lightStates": lightStates,
         "doorStates": doorStates
     }
+
     return jsonify(responseData)
     
 @app.route('/toggleLight', methods=['POST'])
@@ -112,21 +140,19 @@ def toggleLight():
     data = request.json
     room = data.get('room')
     
-    """  
-    TODO:
-
-        The light state have to be changed with the function
-        digitalWrite(pinNumber) from library.
-
-        After that, the light state from server have to be 
-        updated correspondingly and send in the response.
-
-    """
-
     if room in lightStates:
+        
         lightStates[room] = not lightStates[room]
-        return jsonify({"lightStates": lightStates}) 
 
+        pin = roomPins[room]
+        lib.setPinMode(pin, b'op')
+
+        if lightStates[room]:
+            lib.digitalWrite(pin, b"dl") 
+        else:
+            lib.digitalWrite(pin, b"dh")  
+
+        return jsonify({"lightStates": lightStates})
     else:
         return jsonify({"error": "Invalid room"}), 400
 
@@ -134,36 +160,25 @@ def toggleLight():
 def toggleAllLights():
 
     all_on = all(lightStates.values())
-    
-    """  
-    TODO:
-        The lights states have to be changed with the function
-        digitalWrite(pinNumber) from library.
-
-        After that, the lights states from server have to be 
-        updated correspondingly and send in the response.
-
-    """
 
     if all_on:
         for room in lightStates:
             lightStates[room] = not all_on
+            pin = roomPins[room]
+            lib.setPinMode(pin, b'op')
+            lib.digitalWrite(pin, b"dl")
 
     else: 
         for room in lightStates:
             lightStates[room] = True
+            pin = roomPins[room]
+            lib.setPinMode(pin, b'op')
+            lib.digitalWrite(pin, b"dh")
 
     return jsonify(lightStates)
 
 @app.route('/takePhoto', methods=['POST'])
 def takePhoto():
-    """
-    TODO:
-
-    Use function from library to take photo and save it in a folder.
-    Then, use the image path to send it in the response.
-    """
-
     if os.path.exists(photo_path):
         return send_file(photo_path, mimetype='image/jpeg')
     else:
