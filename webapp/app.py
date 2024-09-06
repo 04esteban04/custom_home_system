@@ -148,9 +148,9 @@ def toggleLight():
         lib.setPinMode(pin, b'op')
 
         if lightStates[room]:
-            lib.digitalWrite(pin, b"dl") 
+            lib.digitalWrite(pin, b"dh") 
         else:
-            lib.digitalWrite(pin, b"dh")  
+            lib.digitalWrite(pin, b"dl")  
 
         return jsonify({"lightStates": lightStates})
     else:
