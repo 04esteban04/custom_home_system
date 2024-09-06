@@ -12,6 +12,13 @@ void executeCommand(const char* command) {
     }
 }
 
+// Función para tomar foto  
+void takeSS() {
+    char command[64];
+    snprintf(command, sizeof(command), "fswebcam /usr/share/flaskapp/myflaskapp/static/images/house.jpg");
+    executeCommand(command);
+}
+
 // Función para configurar el modo de un pin GPIO
 void setPinMode(int pin, const char* mode) {
     char command[64];

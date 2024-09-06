@@ -17,4 +17,7 @@ void digitalWrite(int pin, const char* value);
 int digitalRead(int pin);
 void blink(int pin, int freq, int duration);
 
+// Funciones para webcam
+void takeSS();
+
 #endif
